@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>İyi ki Doğdun İlkay</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,600&family=Roboto:wght@300;500&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #1b0c1a, #320f2d);
+            font-family: 'Playfair Display', serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+            color: #fff0f5;
+        }
+
+        .container {
+            text-align: center;
+            z-index: 2;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 2s ease-in-out forwards 2s;
+        }
+
+        h1 {
+            font-size: 3rem;
+            color: #ff3366;
+            text-shadow: 0 0 20px rgba(255, 51, 102, 0.8);
+            margin-bottom: 10px;
+        }
+
+        p.note {
+            font-size: 1.5rem;
+            font-family: 'Roboto', sans-serif;
+            color: #ffb6c1;
+            margin-bottom: 30px;
+            text-shadow: 0 0 8px #cc3366;
+        }
+
+        .countdown {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .countdown-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            border-radius: 16px;
+            box-shadow: 0 0 10px #ff3366;
+        }
+
+        .countdown-number {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #ffe6f0;
+        }
+
+        .countdown-label {
+            font-size: 1rem;
+            text-transform: uppercase;
+            color: #f8c5d2;
+        }
+
+        #youtube-player {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: none;
+            z-index: 10;
+            border: none;
+        }
+
+        .veil {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.6) 100%);
+            z-index: 1;
+            animation: fadeOutVeil 2s ease-in-out forwards 2s;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeOutVeil {
+            to {
+                opacity: 0;
+                visibility: hidden;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="veil"></div>
+    <div class="container">
+        <h1>İyi ki Doğdun, İlkay... 💋</h1>
+        <p class="note">Gözlerinde kaybolduğum geceler gibi... Bu gece senin 💄</p>
+        <div class="countdown">
+            <div class="countdown-item">
+                <div class="countdown-number" id="days">00</div>
+                <div class="countdown-label">Gün</div>
+            </div>
+            <div class="countdown-item">
+                <div class="countdown-number" id="hours">00</div>
+                <div class="countdown-label">Saat</div>
+            </div>
+            <div class="countdown-item">
+                <div class="countdown-number" id="minutes">00</div>
+                <div class="countdown-label">Dakika</div>
+            </div>
+            <div class="countdown-item">
+                <div class="countdown-number" id="seconds">00</div>
+                <div class="countdown-label">Saniye</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- YouTube Player -->
+    <iframe id="youtube-player" src="about:blank" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+    <script>
+        const targetDate = new Date('July 5, 2025 19:03:00').getTime();
+        const daysElement = document.getElementById('days');
+        const hoursElement = document.getElementById('hours');
+        const minutesElement = document.getElementById('minutes');
+        const secondsElement = document.getElementById('seconds');
+        const youtubePlayer = document.getElementById('youtube-player');
+        const youtubeVideoId = 'Pca4OEYFdj4';
+
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = targetDate - now;
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            daysElement.textContent = days.toString().padStart(2, '0');
+            hoursElement.textContent = hours.toString().padStart(2, '0');
+            minutesElement.textContent = minutes.toString().padStart(2, '0');
+            secondsElement.textContent = seconds.toString().padStart(2, '0');
+
+            if (distance < 0) {
+                clearInterval(countdownInterval);
+                document.querySelector('.container').style.display = 'none';
+                youtubePlayer.style.display = 'block';
+                youtubePlayer.src = `https://www.youtube.com/embed/${youtubeVideoId}?autoplay=1&mute=0&controls=1&loop=0&rel=0&showinfo=0&modestbranding=1`;
+            }
+        }
+
+        updateCountdown();
+        const countdownInterval = setInterval(updateCountdown, 1000);
+    </script>
+</body>
+</html>
